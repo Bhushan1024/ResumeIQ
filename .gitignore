@@ -1,0 +1,36 @@
+# Virtual Environment
+venv/
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Temporary files
+temp/
+*.tmp
+
+# Environment variables (never commit secrets)
+.env
+
+# IDE / Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Ollama / large model files (if any get created)
+*.gguf
+
+# Streamlit specific
+.streamlit/secrets.toml
+
+# Data samples (optional - only commit small anonymized samples)
+# data/*.pdf
+# data/*.docx

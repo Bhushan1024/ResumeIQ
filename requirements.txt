@@ -1,0 +1,10 @@
+streamlit
+pymupdf
+python-docx
+pydantic
+pydantic-settings
+langchain
+langchain-ollama
+langchain-core
+structlog
+pytest
