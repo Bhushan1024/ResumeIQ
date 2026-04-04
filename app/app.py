@@ -10,7 +10,7 @@ from src.extractor.resume_extractor import ResumeExtractor
 from src.config import settings
 
 st.set_page_config(page_title="ResumeIQ Prep", page_icon="📄", layout="wide")
-st.title("📄 ResumeAI Prep")
+st.title("📄 ResumeIQ Prep")
 st.markdown("### Local AI Resume Analyzer & Interview Prep Tool")
 
 # ==================== LLM Backend Status Check ====================
