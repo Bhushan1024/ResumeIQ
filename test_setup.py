@@ -9,5 +9,5 @@ llm = ChatOllama(
     temperature=settings.LLM_TEMPERATURE,
 )
 
-response = llm.invoke("Confirm: Ollama + LangChain setup is successful for ResumeAI Prep on Windows. Reply with 'Yes, ready!'")
+response = llm.invoke("Confirm: Ollama + LangChain setup is successful for ResumeIQ Prep on Windows. Reply with 'Yes, ready!'")
 print("\nResponse:", response.content)
