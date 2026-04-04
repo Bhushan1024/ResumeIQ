@@ -26,6 +26,7 @@ Perfect for personal interview preparation and as a strong AI Engineering portfo
 |-------|-------------|--------|
 | Phase 0 | Environment Setup | ✅ Completed |
 | Phase 1 | Resume Parsing | ✅ Completed |
+| Phase 2 | Structured Data Extraction | 🔄 In Progress |
 
 ---
 
@@ -167,6 +168,55 @@ streamlit run app/app.py
 2. Open the Streamlit app in your browser.
 3. Upload a resume and verify that the extracted text is readable and sections are preserved.
 
+---
+ 
+## Verifying Ollama is Running
+ 
+Before launching the app, run these commands in PowerShell to confirm the LLM backend is active.
+ 
+#### 1. Check if the Ollama Server is Responding
+ 
+```powershell
+curl http://localhost:11434
+```
+ 
+> ✅ If you see `"Ollama is running"` or a JSON response, the server is up.
+ 
+#### 2. List All Downloaded Models
+ 
+```powershell
+ollama list
+```
+ 
+#### 3. Check Which Models are Loaded in Memory
+ 
+```powershell
+ollama ps
+```
+ 
+- If your model (e.g., `llama3.3:8b` or `qwen3:8b`) appears under the `NAME` column, it is active and loaded.
+- The `PROCESSOR` column shows `GPU` or `CPU` — GPU means faster inference via your graphics card.
+ 
+#### 4. Quick Interactive Test
+ 
+```powershell
+ollama run llama3.3:8b
+```
+ 
+Type the following prompt:
+ 
+```
+Say hello and confirm you are ready for resume analysis.
+```
+ 
+Then exit with:
+ 
+```
+/bye
+```
+ 
+> ✅ If Ollama responds to your prompt, the LLM is working perfectly.
+ 
 ---
 
 ## Troubleshooting
