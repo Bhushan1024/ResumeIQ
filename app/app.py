@@ -1,10 +1,10 @@
+import sys
+import os
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import streamlit as st
 from pathlib import Path
 from src.config import settings
 import requests
-import sys
-import os
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from src.parser.document_parser import DocumentParser
 from src.extractor.resume_extractor import ResumeExtractor
 from src.config import settings

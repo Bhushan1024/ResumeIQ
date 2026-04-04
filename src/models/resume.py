@@ -17,6 +17,7 @@ class Education(BaseModel):
     graduation_year: Optional[int] = None
 
 class ResumeData(BaseModel):
+    model_config = {"extra": "forbid"}
     full_name: str
     email: Optional[str] = None
     phone: Optional[str] = None
