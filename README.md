@@ -26,7 +26,8 @@ Perfect for personal interview preparation and as a strong AI Engineering portfo
 |-------|-------------|--------|
 | Phase 0 | Environment Setup | ✅ Completed |
 | Phase 1 | Resume Parsing | ✅ Completed |
-| Phase 2 | Structured Data Extraction | 🔄 In Progress |
+| Phase 2 | Structured Data Extraction | ✅ Completed |
+| Phase 3 | Experience Level Analysis + Candidate Summary | 🔄In Progress
 
 ---
 
@@ -123,6 +124,13 @@ To exit the Ollama chat:
 
 ---
 
+### Phase 0: Environment Setup
+- Create virtual environment and install dependencies from `requirements.txt`
+- Install Ollama and pull recommended model: `ollama pull qwen3:8b`
+- Set up project structure and `src/config.py`
+
+---
+
 ### Phase 1: Resume Parsing (Text Extraction)
 
 > 💡 Pull the repo and check the relevant files directly in the codebase. File paths are referenced below.
@@ -167,6 +175,39 @@ streamlit run app/app.py
 1. Place 1–2 anonymized resume files (PDF or DOCX) inside the `data/` folder.
 2. Open the Streamlit app in your browser.
 3. Upload a resume and verify that the extracted text is readable and sections are preserved.
+
+---
+
+### Phase 2: Structured Data Extraction with Pydantic + LLM
+
+**Key Features Added:**
+- Created structured Pydantic models in `src/models/resume.py` (ResumeData, Experience, Education, etc.)
+- Built `src/extractor/resume_extractor.py` using LangChain + Ollama with `with_structured_output()`
+- Optimized prompt for qwen3:8b to improve accuracy and reduce hallucination
+- Enhanced Streamlit UI with:
+  - Clear step-by-step progress messages
+  - Metrics dashboard (name, skills count, experience entries)
+  - Tabs for Experience, Skills, and Education
+  - Cancel button during long LLM processing
+  - Sidebar showing Ollama backend status
+- Fixed common extraction issues and improved error handling
+
+Raw resume text is now reliably converted into clean, structured Python objects.
+
+---
+
+### Phase 3: Experience Level Analysis + Candidate Summary
+
+**Key Features Added:**
+- Created `src/analyzer/experience_analyzer.py` with `ExperienceAnalyzer` class
+- Implemented rule-based experience level calculation:
+  - Junior (< 2 years)
+  - Mid-level (2–5 years)
+  - Senior (> 5 years)
+- Generated professional **candidate profile summary** based on extracted data
+- Fixed hallucinated experience levels coming from Phase 2
+- Added summary display and metrics in Streamlit UI
+- Updated data flow: Phase 2 → Phase 3 → Ready for Question Generation
 
 ---
  

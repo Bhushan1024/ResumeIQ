@@ -65,6 +65,7 @@ if uploaded_file and not st.session_state.processing:
         f.write(uploaded_file.getbuffer())
 
     try:
+        # st.session_state.processing = True
         # ------------------- Phase 1: Text Extraction -------------------
         st.subheader("🔍 Step 1: Extracting Raw Text from Resume")
         with st.spinner("Reading resume file and extracting text..."):
@@ -147,6 +148,27 @@ if uploaded_file and not st.session_state.processing:
                     st.write(f"From: {edu.institution}")
             else:
                 st.info("No education details extracted.")
+        
+        st.divider()
+
+        # ------------------- Phase 3: Experience Analysis -------------------
+
+        st.subheader("📊 Phase 3: Experience Analysis & Summary")
+        
+        with st.spinner("Analyzing experience level and generating profile summary..."):
+            from src.analyzer.experience_analyzer import ExperienceAnalyzer
+            analyzer = ExperienceAnalyzer()
+            updated_data, candidate_summary = analyzer.analyze(structured_data)
+        
+        st.success("✅ Phase 3 Complete!")
+        st.info(candidate_summary)
+        
+        col1, col2 = st.columns(2)
+        with col1:
+            st.metric("Final Experience Level", updated_data.experience_level)
+            st.metric("Total Experience Years", f"{updated_data.total_experience_years or 0:.1f} years")
+        with col2:
+            st.metric("Skills Count", len(updated_data.skills))
 
     except Exception as e:
         st.error(f"❌ Something went wrong: {str(e)}")
@@ -155,6 +177,7 @@ if uploaded_file and not st.session_state.processing:
     finally:
         # Clean up temporary file
         temp_path.unlink(missing_ok=True)
+        # st.session_state.processing = False
 else:
     if st.session_state.processing:
         st.warning("Processing was cancelled. Upload your resume again to start fresh.")

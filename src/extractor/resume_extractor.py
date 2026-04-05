@@ -25,6 +25,7 @@ You are an expert resume parser. Extract information **strictly and accurately**
 
 Strict Rules:
 - ONLY use information explicitly written in the resume. Never guess, assume, or hallucinate.
+- Pay special attention to contact information (email, phone, LinkedIn).
 - Do NOT add any explanation, reasoning, or extra text outside the JSON.
 - If a field is not present, use null or empty list [].
 - For experience_level, choose only: "Junior", "Mid-level", or "Senior" based on total years and role seniority. Do NOT add any description.
@@ -53,10 +54,17 @@ Return ONLY a valid JSON object that exactly matches the ResumeData schema. No m
             # Fallback: return empty structure
             return ResumeData(
                 full_name="Extraction Failed",
-                experience_level="Unknown",
+                email=None,
+                phone=None,
+                location=None,
+                linkedin=None,
+                summary=None,
                 skills=[],
                 experience=[],
-                education=[]
+                education=[],
+                projects=[],
+                total_experience_years=None,
+                experience_level="Unknown"
             )
 
 
