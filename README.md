@@ -27,7 +27,8 @@ Perfect for personal interview preparation and as a strong AI Engineering portfo
 | Phase 0 | Environment Setup | ✅ Completed |
 | Phase 1 | Resume Parsing | ✅ Completed |
 | Phase 2 | Structured Data Extraction | ✅ Completed |
-| Phase 3 | Experience Level Analysis + Candidate Summary | 🔄In Progress
+| Phase 3 | Experience Level Analysis + Candidate Summary | ✅ Completed
+| Phase 4 | Interview Questions & Expected Answers Generator | 🔄In Progress
 
 ---
 
@@ -208,6 +209,21 @@ Raw resume text is now reliably converted into clean, structured Python objects.
 - Fixed hallucinated experience levels coming from Phase 2
 - Added summary display and metrics in Streamlit UI
 - Updated data flow: Phase 2 → Phase 3 → Ready for Question Generation
+
+---
+
+### Phase 4: Interview Questions & Expected Answers Generator
+
+**Key Features Added:**
+- Developed a smart interview question generator that creates personalized and relevant questions based on the candidate’s actual resume data, experience, skills, and projects.
+- Generated high-quality expected answers that are grounded in the candidate’s real background using dynamic prompt engineering.
+- Supported multiple question categories including Technical, Behavioral (STAR method), and Situational/Project-based questions.
+- Integrated the generator seamlessly into the Streamlit UI with clean, readable markdown output.
+- Added one-click download functionality to save the generated questions and answers as a Markdown file.
+- Completed the full end-to-end AI workflow: from resume upload to ready-to-practice personalized interview preparation.
+
+
+This phase turns the application into a complete, practical interview preparation tool by providing tailored questions and model answers specific to the user's resume.
 
 ---
  

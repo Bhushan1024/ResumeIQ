@@ -65,6 +65,7 @@ if uploaded_file and not st.session_state.processing:
         f.write(uploaded_file.getbuffer())
 
     try:
+        st.divider()
         # st.session_state.processing = True
         # ------------------- Phase 1: Text Extraction -------------------
         st.subheader("🔍 Step 1: Extracting Raw Text from Resume")
@@ -169,6 +170,27 @@ if uploaded_file and not st.session_state.processing:
             st.metric("Total Experience Years", f"{updated_data.total_experience_years or 0:.1f} years")
         with col2:
             st.metric("Skills Count", len(updated_data.skills))
+
+        st.divider()
+
+        # ==================== PHASE 4: Interview Questions ====================
+        st.subheader("🎯 Phase 4: Tailored Interview Questions & Answers")
+        
+        with st.spinner("Generating personalized interview questions based on your resume..."):
+            from src.generator.interview_generator import InterviewGenerator
+            generator = InterviewGenerator()
+            questions_output = generator.generate_questions(updated_data, num_questions=10)
+        
+        st.success("✅ Interview Questions Generated!")
+        st.markdown(questions_output)
+        
+        # Download button
+        st.download_button(
+            label="📥 Download Questions as Markdown",
+            data=questions_output,
+            file_name=f"{updated_data.full_name.replace(' ', '_')}_interview_questions.md",
+            mime="text/markdown"
+        )
 
     except Exception as e:
         st.error(f"❌ Something went wrong: {str(e)}")
