@@ -47,6 +47,12 @@ if st.sidebar.button("Refresh LLM Status"):
 # Session state to handle cancellation
 if "processing" not in st.session_state:
     st.session_state.processing = False
+    
+if "questions_output" not in st.session_state:
+    st.session_state.questions_output = None
+
+if "regenerate" not in st.session_state:
+    st.session_state.regenerate = False
 
 uploaded_file = st.file_uploader(
     "Upload your resume (PDF or DOCX)", 
@@ -176,18 +182,43 @@ if uploaded_file and not st.session_state.processing:
         # ==================== PHASE 4: Interview Questions ====================
         st.subheader("🎯 Phase 4: Tailored Interview Questions & Answers")
         
-        with st.spinner("Generating personalized interview questions based on your resume..."):
-            from src.generator.interview_generator import InterviewGenerator
-            generator = InterviewGenerator()
-            questions_output = generator.generate_questions(updated_data, num_questions=10)
+        col_regen, col_download = st.columns([3, 1])
+
+        with col_regen:
+            if st.button("🔄 Regenerate Interview Questions", type="primary", use_container_width=True):
+                with st.spinner("Regenerating fresh set of interview questions..."):
+                    from src.generator.interview_generator import InterviewGenerator
+                    generator = InterviewGenerator()
+                    # Regenerate only questions using existing analyzed data
+                    st.session_state.questions_output = generator.generate_questions(updated_data, num_questions=10)
+                st.success("✅ New questions generated!")
         
-        st.success("✅ Interview Questions Generated!")
-        st.markdown(questions_output)
+        with col_download:
+            if st.session_state.get("questions_output"):
+                st.download_button(
+                    label="📥 Download Questions",
+                    data=st.session_state.questions_output,
+                    file_name=f"{updated_data.full_name.replace(' ', '_')}_interview_questions.md",
+                    mime="text/markdown",
+                    use_container_width=True
+                )
+        
+        # Generate questions (with regeneration support)
+        if "questions_output" not in st.session_state or st.session_state.questions_output is None:
+            with st.spinner("Generating personalized interview questions... This may take 15-40 seconds."):
+                from src.generator.interview_generator import InterviewGenerator
+                generator = InterviewGenerator()
+                st.session_state.questions_output = generator.generate_questions(updated_data, num_questions=15)
+                st.session_state.regenerate = False
+        
+        st.success("✅ Interview Questions Generated Successfully!")
+        # Display the questions
+        st.markdown(st.session_state.questions_output)
         
         # Download button
         st.download_button(
             label="📥 Download Questions as Markdown",
-            data=questions_output,
+            data=st.session_state.questions_output,
             file_name=f"{updated_data.full_name.replace(' ', '_')}_interview_questions.md",
             mime="text/markdown"
         )
