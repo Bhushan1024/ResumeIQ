@@ -324,10 +324,6 @@ Then try activating the virtual environment again.
 python -m venv venv
 ```
 
-
-Prerequisites before running this project run ollam on local through powershell using ollama run llama3
-verify it is running by hitting curl.exe http://localhost:11434 or curl http://localhost:11434 or after use stop ollama by doing quit ollama from hidden icons from bottom of you taskbar and verufy again if it is running or not by 
-by hitting curl.exe http://localhost:11434 or curl http://localhost:11434
 ---
 
 # Prerequisites
