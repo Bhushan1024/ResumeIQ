@@ -251,7 +251,7 @@ ollama list
 ollama ps
 ```
  
-- If your model (e.g., `llama3.3:8b` or `qwen3:8b`) appears under the `NAME` column, it is active and loaded.
+- If your model (e.g., ` llama3.2:3b` or `qwen3:8b`) appears under the `NAME` column, it is active and loaded.
 - The `PROCESSOR` column shows `GPU` or `CPU` — GPU means faster inference via your graphics card.
  
 #### 4. Quick Interactive Test
@@ -323,3 +323,62 @@ Then try activating the virtual environment again.
 ```powershell
 python -m venv venv
 ```
+
+
+Prerequisites before running this project run ollam on local through powershell using ollama run llama3
+verify it is running by hitting curl.exe http://localhost:11434 or curl http://localhost:11434 or after use stop ollama by doing quit ollama from hidden icons from bottom of you taskbar and verufy again if it is running or not by 
+by hitting curl.exe http://localhost:11434 or curl http://localhost:11434
+
+Here’s a clean Markdown (.md) version you can paste into your README:
+
+--- 
+## Prerequisites
+
+Before running this project, make sure **Ollama** is installed and running locally.
+---
+
+### 1. Start Ollama locally
+Open **PowerShell** and run:
+
+```powershell
+ollama run llama3
+
+This will start Ollama and load the llama3 model locally.
+
+2. Verify Ollama is running
+
+To check if Ollama is running, open PowerShell and run either of the following:
+
+curl.exe http://localhost:11434
+
+or
+
+curl http://localhost:11434
+
+If Ollama is running correctly, you should see a response like:
+
+Ollama is running
+Stopping Ollama After Use
+
+After using the project, you can stop Ollama to free up system resources.
+
+Option 1: Quit from Taskbar
+Click the hidden icons arrow in the bottom-right corner of your taskbar.
+Find the Ollama icon.
+Right-click it and select Quit Ollama.
+3. Verify Ollama has stopped
+
+After quitting Ollama, verify whether it is still running by executing:
+
+curl.exe http://localhost:11434
+
+or
+
+curl http://localhost:11434
+
+If Ollama has stopped successfully, you should get a connection refused / failed to connect response.
+
+Notes
+On PowerShell, curl may behave differently because it maps to Invoke-WebRequest.
+If you face issues, prefer using:
+curl.exe http://localhost:11434
