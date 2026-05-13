@@ -328,57 +328,93 @@ python -m venv venv
 Prerequisites before running this project run ollam on local through powershell using ollama run llama3
 verify it is running by hitting curl.exe http://localhost:11434 or curl http://localhost:11434 or after use stop ollama by doing quit ollama from hidden icons from bottom of you taskbar and verufy again if it is running or not by 
 by hitting curl.exe http://localhost:11434 or curl http://localhost:11434
-
-Here’s a clean Markdown (.md) version you can paste into your README:
-
---- 
-## Prerequisites
-
-Before running this project, make sure **Ollama** is installed and running locally.
 ---
 
-### 1. Start Ollama locally
+# Prerequisites
+
+Before running this project, make sure that **Ollama** is installed and running locally.
+
+---
+
+# Setting Up Ollama
+
+## 1. Start Ollama Locally
+
 Open **PowerShell** and run:
 
 ```powershell
 ollama run llama3
+```
 
-This will start Ollama and load the llama3 model locally.
+This command starts Ollama and loads the `llama3` model locally.
 
-2. Verify Ollama is running
+---
 
-To check if Ollama is running, open PowerShell and run either of the following:
+## 2. Verify Ollama Is Running
 
+To verify that Ollama is running correctly, open **PowerShell** and run either of the following commands:
+
+```powershell
 curl.exe http://localhost:11434
+```
 
 or
 
+```powershell
 curl http://localhost:11434
+```
 
-If Ollama is running correctly, you should see a response like:
+If Ollama is running successfully, you should see a response similar to:
 
+```text
 Ollama is running
-Stopping Ollama After Use
+```
+
+> **Note:**  
+> In PowerShell, `curl` may map to `Invoke-WebRequest`, which can behave differently.  
+> If you encounter issues, prefer using:
+
+```powershell
+curl.exe http://localhost:11434
+```
+
+---
+
+# Stopping Ollama After Use
 
 After using the project, you can stop Ollama to free up system resources.
 
-Option 1: Quit from Taskbar
-Click the hidden icons arrow in the bottom-right corner of your taskbar.
-Find the Ollama icon.
-Right-click it and select Quit Ollama.
-3. Verify Ollama has stopped
+## Option 1: Quit from the Taskbar
 
-After quitting Ollama, verify whether it is still running by executing:
+1. Click the hidden icons arrow in the bottom-right corner of the taskbar.
+2. Locate the **Ollama** icon.
+3. Right-click the icon.
+4. Select **Quit Ollama**.
 
+---
+
+## 3. Verify Ollama Has Stopped
+
+After quitting Ollama, verify that it has stopped by running:
+
+```powershell
 curl.exe http://localhost:11434
+```
 
 or
 
+```powershell
 curl http://localhost:11434
+```
 
-If Ollama has stopped successfully, you should get a connection refused / failed to connect response.
+If Ollama has stopped successfully, you should receive a response similar to:
 
-Notes
-On PowerShell, curl may behave differently because it maps to Invoke-WebRequest.
-If you face issues, prefer using:
-curl.exe http://localhost:11434
+```text
+Failed to connect
+```
+
+or
+
+```text
+Connection refused
+```
