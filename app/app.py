@@ -112,8 +112,13 @@ if uploaded_file and not st.session_state.processing:
         col_a, col_b = st.columns(2)
         with col_a:
             st.metric("Full Name", structured_data.full_name or "Not found")
-            st.metric("Experience Level", structured_data.experience_level)
-            st.metric("Total Experience", f"{structured_data.total_experience_years or 0:.1f} years")
+            st.metric("Experience Level (AI estimate)", structured_data.experience_level)
+            st.metric(
+                "Total Experience (stated on resume)",
+                f"{structured_data.total_experience_years:.1f} years"
+                if structured_data.total_experience_years
+                else "Not stated",
+            )
         
         with col_b:
             skills_count = len(structured_data.skills)
@@ -134,6 +139,8 @@ if uploaded_file and not st.session_state.processing:
             if structured_data.experience:
                 for i, exp in enumerate(structured_data.experience):
                     st.write(f"**{exp.role}** at **{exp.company}**")
+                    if exp.start_date or exp.end_date:
+                        st.caption(f"{exp.start_date or '?'} → {exp.end_date or '?'}")
                     if exp.responsibilities:
                         st.write("Responsibilities:")
                         for resp in exp.responsibilities[:5]:  # Show first 5
@@ -173,7 +180,17 @@ if uploaded_file and not st.session_state.processing:
         col1, col2 = st.columns(2)
         with col1:
             st.metric("Final Experience Level", updated_data.experience_level)
-            st.metric("Total Experience Years", f"{updated_data.total_experience_years or 0:.1f} years")
+            st.metric(
+                "Total Experience Years",
+                f"{updated_data.total_experience_years:.1f} years"
+                if updated_data.total_experience_years
+                else "Could not determine",
+            )
+            if not updated_data.total_experience_years and updated_data.experience:
+                st.caption(
+                    "The dates on the extracted roles could not be parsed — "
+                    "check the Experience tab above."
+                )
         with col2:
             st.metric("Skills Count", len(updated_data.skills))
 

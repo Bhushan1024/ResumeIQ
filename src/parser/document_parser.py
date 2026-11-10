@@ -58,13 +58,31 @@ class DocumentParser:
         full_text = "\n\n".join(paragraphs)
         return full_text.strip(), metadata
 
+    _BULLETS = '\ufffd\uf0b7\uf0a7\uf0d8\u2022\u25cf\u25aa\u25a0\u00b7'
+    _LEADING_BULLET = re.compile(r'^[' + _BULLETS + r']+\s*')
+    _PRIVATE_USE_BULLETS = re.compile(r'[\uf0b7\uf0a7\uf0d8]')
+
     @staticmethod
     def _clean_text(text: str) -> str:
+        """Normalise a block of text WITHOUT destroying its line structure.
+
+        Line breaks carry the section/job boundaries the LLM relies on to tell
+        one job apart from the next, so only intra-line whitespace is collapsed.
+        """
         if not text:
             return ""
-        text = re.sub(r'\s+', ' ', text).strip()
+
         text = re.sub(r'[\u200b\u200c\u200d]', '', text)
-        return text
+
+        lines = []
+        for line in text.splitlines():
+            line = re.sub(r'[ \t\u00a0]+', ' ', line).strip()
+            line = DocumentParser._LEADING_BULLET.sub('- ', line)
+            line = DocumentParser._PRIVATE_USE_BULLETS.sub('\u2022', line).strip()
+            if line:
+                lines.append(line)
+
+        return "\n".join(lines)
 
     @staticmethod
     def parse_resume(file_path: str | Path) -> Tuple[str, Dict[str, Any]]:

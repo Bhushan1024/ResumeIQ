@@ -1,4 +1,45 @@
+NOT_PROVIDED = "Not provided"
+
+
+def _exp_summary(exp) -> str:
+    bullets = getattr(exp, "responsibilities", None) or []
+    if bullets:
+        return "; ".join(bullets[:3])
+    return "No responsibilities captured"
+
+
+def _bullets(lines) -> str:
+    lines = [line for line in lines if line]
+    return "\n".join(f"- {line}" for line in lines) if lines else NOT_PROVIDED
+
+
+def _format_years(years) -> str:
+    return f"{years:.1f} years" if years else "Could not be determined from the resume"
+
+
+def _format_education(edu) -> str:
+    text = edu.degree
+    if edu.field_of_study:
+        text += f" in {edu.field_of_study}"
+    text += f", {edu.institution}"
+    if edu.graduation_year:
+        text += f" ({edu.graduation_year})"
+    return text
+
+
+def _format_experience(exp) -> str:
+    dates = ""
+    if exp.start_date or exp.end_date:
+        dates = f" ({exp.start_date or '?'} - {exp.end_date or '?'})"
+    return f"{exp.role} at {exp.company}{dates}: {_exp_summary(exp)}"
+
+
 def get_interview_prompt(resume_data, num_questions=15):
+    skills = ", ".join(resume_data.skills[:25]) if resume_data.skills else NOT_PROVIDED
+    projects = _bullets(resume_data.projects)
+    education = _bullets(_format_education(e) for e in resume_data.education)
+    experience = _bullets(_format_experience(e) for e in resume_data.experience[:5])
+
     return f"""
 You are a highly experienced technical interviewer with 20+ years in the software industry, working as a Software Architect, Engineering Leader, and Senior Hiring Panelist.
 
@@ -15,22 +56,30 @@ You must think like:
 ====================================================
 CANDIDATE PROFILE
 ====================================================
+The candidate's resume data is below, one XML tag per section.
+
+<candidate_overview>
 Name: {resume_data.full_name or "Candidate"}
 Experience Level: {resume_data.experience_level or "Unknown"}
-Total Experience: {resume_data.total_experience_years or 0} years
-Summary: {resume_data.summary or "Not provided"}
+Total Experience: {_format_years(resume_data.total_experience_years)}
+Summary: {resume_data.summary or NOT_PROVIDED}
+</candidate_overview>
 
-Skills:
-{', '.join(resume_data.skills[:25]) if resume_data.skills else 'Not provided'}
+<skills>
+{skills}
+</skills>
 
-Projects:
-{resume_data.projects if resume_data.projects else 'Not provided'}
+<projects>
+{projects}
+</projects>
 
-Education:
-{resume_data.education if resume_data.education else 'Not provided'}
+<education>
+{education}
+</education>
 
-Recent Experience:
-{chr(10).join([f"- {exp.role} at {exp.company}: {exp.description or 'No description available'}" for exp in resume_data.experience[:5]]) if resume_data.experience else 'Not provided'}
+<recent_experience>
+{experience}
+</recent_experience>
 
 ====================================================
 IMPORTANT INSTRUCTIONS

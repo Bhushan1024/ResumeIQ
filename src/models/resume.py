@@ -5,6 +5,7 @@ from datetime import date
 class Experience(BaseModel):
     company: str
     role: str
+    location: Optional[str] = None
     start_date: Optional[str] = None
     end_date: Optional[str] = None
     duration_years: Optional[float] = None
